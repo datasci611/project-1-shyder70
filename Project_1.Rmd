@@ -1,0 +1,177 @@
+---
+title: "BIOS611 Project 1"
+author: "Salim Hyder"
+date: "September 14, 2018"
+output: html_document
+---
+
+#Introduction
+In this project we select four datasets from R dataset package for Exploratory analysis.
+
+To begin with I load the library tidyverse.
+
+```{r, results="hide",message=FALSE}
+library(tidyverse)
+data()
+```
+
+##Exploratory analysis for dataset 1
+I select iris dataset as my first data
+
+```{r, echo=F, results="hide"}
+
+head(iris)
+tp1 = as_tibble(iris)
+tp1$names = names(iris)
+head(tp1)
+dim(tp1)
+```
+
+
+A numerical summary of the iris data set is given as follows:
+
+```{r}
+summary(tp1)
+```
+
+
+
+# Graphical Summary:Box plots   
+Select column with select()
+
+```{r}
+sl <- select(tp1, Species, Sepal.Length, Sepal.Width, Petal.Length, Petal.Width)
+ ggplot(sl, mapping=aes(x=Species, y=Sepal.Length)) +
+    geom_boxplot()
+    
+ ggplot(sl, mapping=aes(x=Species, y=Sepal.Width)) +
+    geom_boxplot()
+   
+ ggplot(sl, mapping=aes(x=Species, y=Petal.Length)) +
+    geom_boxplot() 
+   
+ ggplot(sl, mapping=aes(x=Species, y=Petal.Width)) +
+    geom_boxplot()
+```
+
+Median Sepal Length of species 'virginica' is higher than the median lenghts of species 'setosa' and 'versicilor'. Variation of length within species 'virginica' is also higher than the variations of lengths of species 'setosa' and 'versicilor' 
+
+The dataset can be filtered to create plots only for one species: virginica 
+
+
+```{r}
+fl1 <- filter(tp1, Species == 'virginica')
+ggplot(fl1, mapping=aes(x=Species, y=Sepal.Length)) +
+    geom_boxplot()
+```
+   
+
+
+
+##Exploratory analysis for dataset 2
+The CO2 data frame has 84 rows and 5 columns of data from an experiment on the cold tolerance of the grass species Echinochloa crus-galli. One possible analysis would be determine how uptake of CO2 depends on ambient concentration.
+
+I select CO2 dataset as my second data
+
+
+```{r, echo=F, results="hide"}
+tp2 = as_tibble(CO2)
+dim(tp2)
+```
+
+
+A numerical summary of the CO2 data set is given as follows:
+
+```{r}
+summary(CO2)
+```
+
+# Graphical Summary 
+
+```{r}
+ggplot(data=tp2) +
+   geom_point(mapping = aes(x = conc, y = uptake, color = Plant))
+```
+   
+
+
+Co2 uptake increases with the increase of ambient Co2 concentration in Quebec plants.
+
+Same analysis could be shown within a particular treatment group.
+The dataset can be filtered to create plots only for one treatment: nonchilled 
+
+
+```{r}
+fl2 <- filter(tp2, Treatment=='nonchilled')
+ggplot(data=fl2) +
+   geom_point(mapping = aes(x = conc, y = uptake, color = Plant))
+```
+
+
+
+##Exploratory analysis for dataset 3
+
+I select USArrests dataset as my second data
+
+
+```{r,  echo=F, results="hide"}
+
+tp3 = as_tibble(USArrests)
+dim(tp3)
+```
+A numerical summary of the USArrests data set is given as follows:
+
+
+```{r}
+summary(USArrests)
+```
+
+A sinpme analysis could be to determine how each type of crime depends on percentage of urban population
+
+
+```{r}
+ggplot(data=tp3) +
+   geom_point(mapping = aes(x = UrbanPop, y = Rape))
+ggplot(data=tp3) +
+   geom_point(mapping = aes(x = UrbanPop, y = Murder))
+ggplot(data=tp3) +
+   geom_point(mapping = aes(x = UrbanPop, y = Assault))
+```
+
+
+   
+
+ Crimes 'rape' and 'assault' depend on percentage of urban population. But murder does not depend on percentage of urban population. There is no significant correlation between murder and percentage of urban population.
+ 
+
+##Exploratory analysis for dataset 4
+
+I select ChickWeight dataset as my second data
+
+Reasonable analysis will be to see how weight varies over time by different levels of diet
+
+
+```{r, echo=F, results="hide"}
+tp4 = as_tibble(ChickWeight)
+dim(tp4)
+
+```
+
+A numerical summary of the ChickWeight data set is given as follows:
+
+
+```{r}
+
+summary(ChickWeight)
+```
+
+
+```{r}
+ggplot(data=tp4) +
+   geom_point(mapping = aes(x = Time, y = weight)) + 
+   facet_wrap(~ Diet, nrow=2)
+```
+
+
+Variable weight increases with the increase of time by different levels of diet
+
